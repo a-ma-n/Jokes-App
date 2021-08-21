@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.row.view.*
 
 class JokesAdapter
-    (var jokes:List<Jokes>)
+    (var jokeList:List<Jokes>)
     : RecyclerView.Adapter<JokesAdapter.JokesViewHolder> (){
 
     inner class JokesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -20,11 +20,12 @@ class JokesAdapter
 
     override fun onBindViewHolder(holder:JokesViewHolder, position: Int) {
         holder.itemView.apply{
-            itemBody.text=(jokes[position].setup+"\n"+jokes[position].punchline)
+            viewSetup.text=jokeList[position].setup
+            viewPunch.text=jokeList[position].punchline
         }
     }
 
     override fun getItemCount(): Int {
-        return jokes.size
+        return jokeList.size
     }
 }

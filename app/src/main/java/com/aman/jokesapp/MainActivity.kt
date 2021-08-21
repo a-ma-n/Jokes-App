@@ -11,34 +11,38 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    private var joke = ArrayList<Jokes>()
+    private var jokes = ArrayList<Jokes>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val rv: RecyclerView = findViewById(R.id.rvJokes)
-        var ja: JokesAdapter = JokesAdapter(joke)
+        var ja: JokesAdapter=JokesAdapter(jokes)
+
+//        jokes.add(Jokes(123,"general","setup", "punchline" ))
 
         rv.layoutManager = LinearLayoutManager(this)
         rv.setHasFixedSize(true)
         rv.adapter = ja
 
-        RetrofitInstance.api.getTodos().enqueue(object : Callback<List<Jokes>> {
 
-            override fun onResponse(call: Call<List<Jokes>>, response: Response<List<Jokes>>) {
-                if (response.message() == "OK") {
-                    joke = ArrayList(response.body()!!)
+        RetrofitInstance.api.getJokes().enqueue(object : Callback<List<Jokes>> {
 
-                    Log.d("apicall", joke.toString())
+            override fun onResponse(call: Call<List<Jokes>>, response: Response<List<Jokes>>)
+            {
 
-                    ja.jokes = joke
+
+                    jokes = ArrayList(response.body()!!)
+                    Log.d("MainActivity", jokes.toString())
+                    ja.jokeList = jokes
                     ja.notifyDataSetChanged()
-                } else {
-                    Log.d("apicall", response.message())
 
-                }
-
+//                }
+//                else if(response.body()==null)
+//                {
+//                    Log.d("MainActivity", response.message())
+//                }
             }
 
             override fun onFailure(call: Call<List<Jokes>>, t: Throwable) {
